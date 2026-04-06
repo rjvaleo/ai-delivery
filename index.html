@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RJ Valeo — Scrum Master, AI Delivery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:   #080A0E;
+  --ink:     #0D1117;
+  --panel:   #111820;
+  --card:    #161E28;
+  --border:  #1E2D3D;
+  --border2: #2A3F58;
+  --amber:   #F5A623;
+  --amber2:  #E8950F;
+  --amber-dim: rgba(245,166,35,0.12);
+  --amber-glow: rgba(245,166,35,0.06);
+  --green:   #3DD68C;
+  --red:     #FF5757;
+  --blue:    #5B8DEF;
+  --purple:  #9B7FEA;
+  --text:    #E8EDF5;
+  --text2:   #7A90A8;
+  --text3:   #3D5068;
+  --mono:    'IBM Plex Mono', monospace;
+  --serif:   'Libre Baskerville', Georgia, serif;
+  --sans:    'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* ── GRAIN OVERLAY ────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+/* ── CURSOR GLOW ──────────────────────────────────────── */
+#cursor-glow {
+  position: fixed;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,166,35,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+}
+
+/* ── NAV ──────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 56px;
+  background: rgba(8,10,14,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-id {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%,100% { box-shadow: 0 0 0 0 rgba(245,166,35,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(245,166,35,0); }
+}
+
+.nav-name {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+
+.nav-role {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.1em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text2);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  transition: all 0.15s;
+}
+
+.nav-links a:hover { color: var(--amber); background: var(--amber-dim); }
+
+.nav-cta {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 8px 18px;
+  background: var(--amber);
+  color: var(--black);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+.nav-cta:hover { background: #FFB830; }
+
+/* ── SECTIONS ─────────────────────────────────────────── */
+section {
+  padding: 100px 64px;
+  position: relative;
+}
+
+.inner { max-width: 1140px; margin: 0 auto; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px; height: 1px;
+  background: var(--amber);
+}
+
+/* ── HERO ─────────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 56px;
+  overflow: hidden;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  gap: 80px;
+  align-items: center;
+}
+
+.hero-left {}
+
+.hero-system-line {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  margin-bottom: 32px;
+}
+
+.hero-system-line span { color: var(--amber); }
+
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(40px, 5.5vw, 72px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 32px;
+}
+
+.hero-headline .strike {
+  position: relative;
+  color: var(--text3);
+}
+
+.hero-headline .strike::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 2px;
+  background: var(--red);
+  transform: rotate(-2deg);
+}
+
+.hero-headline .hl { color: var(--amber); }
+
+.hero-body {
+  font-size: 17px;
+  color: var(--text2);
+  max-width: 520px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.hero-stat {}
+.hero-stat-n {
+  font-family: var(--mono);
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--amber);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hero-stat-l {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+}
+
+/* ── TERMINAL WIDGET ──────────────────────────────────── */
+.terminal {
+  background: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(245,166,35,0.05);
+}
+
+.term-bar {
+  background: var(--panel);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.term-dots { display: flex; gap: 6px; }
+.term-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.term-dot.r { background: #FF5F56; }
+.term-dot.y { background: #FFBD2E; }
+.term-dot.g { background: #27C93F; }
+
+.term-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  flex: 1;
+  text-align: center;
+  letter-spacing: 0.06em;
+}
+
+.term-body {
+  padding: 20px 24px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.9;
+  min-height: 320px;
+}
+
+.term-line { display: block; }
+.term-prompt { color: var(--amber); }
+.term-cmd { color: var(--text); }
+.term-out { color: var(--text2); }
+.term-out.green { color: var(--green); }
+.term-out.red { color: var(--red); }
+.term-out.amber { color: var(--amber); }
+.term-out.blue { color: var(--blue); }
+.term-out.dim { color: var(--text3); }
+.term-cursor {
+  display: inline-block;
+  width: 8px; height: 14px;
+  background: var(--amber);
+  vertical-align: middle;
+  animation: blink-cursor 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink-cursor { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── SPRINT BOARD ─────────────────────────────────────── */
+#board { background: var(--panel); }
+
+.board-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.board-title {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.15;
+}
+
+.sprint-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+.tag-green { background: rgba(61,214,140,0.1); color: var(--green); border: 1px solid rgba(61,214,140,0.2); }
+.tag-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,166,35,0.2); }
+.tag-blue  { background: rgba(91,141,239,0.1); color: var(--blue); border: 1px solid rgba(91,141,239,0.2); }
+.tag-dim   { background: rgba(255,255,255,0.04); color: var(--text2); border: 1px solid var(--border); }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.col-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.col-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.col-n {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  background: var(--ink);
+  padding: 2px 7px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+}
+
+.col-head.active .col-label { color: var(--amber); }
+.col-head.active { border-bottom-color: var(--amber); }
+.col-head.done .col-label { color: var(--green); }
+.col-head.done { border-bottom-color: var(--green); }
+
+.cards { display: flex; flex-direction: column; gap: 10px; }
+
+.c {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: default;
+}
+
+.c:hover {
+  border-color: var(--border2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.c::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 8px 0 0 8px;
+}
+
+.c.ai::before    { background: var(--amber); }
+.c.sprint::before { background: var(--blue); }
+.c.people::before { background: var(--green); }
+.c.risk::before   { background: var(--red); }
+.c.done { opacity: 0.5; }
+.c.done::before { background: var(--green); }
+
+.c-id {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  margin-bottom: 7px;
+  letter-spacing: 0.06em;
+}
+
+.c-title {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
+.c-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+
+.c-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 100px;
+  background: var(--ink);
+  border: 1px solid var(--border);
+  color: var(--text3);
+}
+
+.c-pts {
+  position: absolute;
+  bottom: 10px; right: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--amber);
+  font-weight: 600;
+}
+
+/* ── METRICS ──────────────────────────────────────────── */
+#metrics { background: var(--black); }
+
+.metrics-hed {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  margin-bottom: 48px;
+  gap: 24px;
+}
+
+.metrics-title {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.metrics-note {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  max-width: 260px;
+  text-align: right;
+  line-height: 1.6;
+}
+
+.m-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.m-card {
+  background: var(--card);
+  padding: 28px 30px;
+  transition: background 0.2s;
+}
+
+.m-card:hover { background: var(--panel); }
+
+.m-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.m-val {
+  font-family: var(--mono);
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.m-val.amber { color: var(--amber); }
+.m-val.green { color: var(--green); }
+.m-val.blue  { color: var(--blue); }
+
+.m-delta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text2);
+  margin-bottom: 10px;
+}
+
+.m-desc {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.65;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+/* VELOCITY CHART */
+.vel-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+}
+
+.vel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.vel-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vel-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+  background: rgba(61,214,140,0.1);
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid rgba(61,214,140,0.2);
+}
+
+.vel-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 90px;
+}
+
+.vel-b-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.vel-b {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+  background: rgba(91,141,239,0.25);
+  border: 1px solid rgba(91,141,239,0.3);
+  border-bottom: none;
+  transition: all 0.2s;
+}
+
+.vel-b:hover { background: var(--blue); }
+.vel-b.now { background: rgba(245,166,35,0.4); border-color: var(--amber); }
+.vel-b.now:hover { background: var(--amber); }
+
+.vel-b-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+}
+
+/* ── AI DELIVERY PROOF ────────────────────────────────── */
+#ai-proof { background: var(--panel); }
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.proof-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.25s;
+}
+
+.proof-card:hover {
+  border-color: var(--border2);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  transform: translateY(-3px);
+}
+
+.proof-card.featured {
+  grid-column: span 2;
+  border-color: rgba(245,166,35,0.2);
+}
+
+.proof-head {
+  padding: 20px 24px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.proof-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.proof-icon.ai    { background: var(--amber-dim); border: 1px solid rgba(245,166,35,0.2); }
+.proof-icon.sprint { background: rgba(91,141,239,0.1); border: 1px solid rgba(91,141,239,0.2); }
+.proof-icon.shield { background: rgba(61,214,140,0.08); border: 1px solid rgba(61,214,140,0.2); }
+.proof-icon.psy   { background: rgba(155,127,234,0.1); border: 1px solid rgba(155,127,234,0.2); }
+.proof-icon.dash  { background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.15); }
+
+.proof-heading {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.proof-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+}
+
+.proof-body { padding: 20px 24px; }
+
+.proof-text {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
+.proof-evidence {
+  background: var(--ink);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 6px 6px 0;
+  padding: 12px 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.proof-evidence .label {
+  display: block;
+  font-size: 9px;
+  color: var(--amber);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* FEATURED: sprint integrity interactive */
+.integrity-demo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.sprint-goal-box {
+  background: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.sgb-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.sgb-goal {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.capacity-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.capacity-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--green);
+  transition: width 0.5s ease, background 0.3s;
+}
+
+.capacity-text {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  display: flex;
+  justify-content: space-between;
+}
+
+.inject-queue {
+  background: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.inject-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.inject-item:hover { border-color: var(--red); color: var(--text); }
+.inject-item.injected { opacity: 0.4; text-decoration: line-through; cursor: default; }
+
+.inject-icon { font-size: 14px; flex-shrink: 0; }
+.inject-label { flex: 1; font-size: 11px; }
+.inject-pts { font-family: var(--mono); font-size: 10px; color: var(--red); }
+
+.inject-result {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.6;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  background: var(--panel);
+  transition: all 0.3s;
+}
+
+.inject-result.warning { border-color: rgba(255,87,87,0.3); color: var(--red); background: rgba(255,87,87,0.06); }
+.inject-result.ok { border-color: rgba(61,214,140,0.3); color: var(--green); background: rgba(61,214,140,0.06); }
+
+/* ── RETRO ────────────────────────────────────────────── */
+#retro { background: var(--black); }
+
+.retro-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.retro-left {}
+
+.retro-quote {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+
+.retro-quote .hl { color: var(--amber); font-style: normal; font-weight: 700; }
+
+.retro-sig {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.retro-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--amber) 0%, #B8720D 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--black);
+  flex-shrink: 0;
+}
+
+.retro-sig-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.retro-sig-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+.cta-group { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: all 0.15s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary { background: var(--amber); color: var(--black); }
+.btn-primary:hover { background: #FFB830; }
+.btn-ghost { background: transparent; color: var(--amber); border: 1px solid rgba(245,166,35,0.35); }
+.btn-ghost:hover { background: var(--amber-dim); }
+
+.retro-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.retro-col {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.retro-col-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.retro-col-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.retro-col-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.well .retro-col-head { border-top: 2px solid var(--green); }
+.well .retro-col-icon { background: rgba(61,214,140,0.1); }
+.well .retro-col-title { color: var(--green); }
+
+.improve .retro-col-head { border-top: 2px solid var(--amber); }
+.improve .retro-col-icon { background: var(--amber-dim); }
+.improve .retro-col-title { color: var(--amber); }
+
+.actions .retro-col-head { border-top: 2px solid var(--blue); }
+.actions .retro-col-icon { background: rgba(91,141,239,0.1); }
+.actions .retro-col-title { color: var(--blue); }
+
+.retro-items { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+
+.retro-item {
+  background: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+  transition: all 0.15s;
+}
+
+.retro-item:hover { border-color: var(--border2); color: var(--text); }
+
+.ri-tag {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* ── IMPEDIMENT LOG ───────────────────────────────────── */
+#imp { background: var(--panel); }
+
+.imp-title {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.imp-desc {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 36px;
+  max-width: 580px;
+}
+
+.imp-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.imp-table th {
+  background: var(--ink);
+  padding: 12px 16px;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  font-weight: 400;
+}
+
+.imp-table td {
+  padding: 14px 16px;
+  font-size: 12px;
+  color: var(--text2);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.imp-table tr:last-child td { border-bottom: none; }
+.imp-table tr:hover td { background: var(--panel); color: var(--text); }
+
+.imp-id {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+.s-badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.s-resolved  { background: rgba(61,214,140,0.1); color: var(--green); border: 1px solid rgba(61,214,140,0.2); }
+.s-progress  { background: rgba(91,141,239,0.1); color: var(--blue); border: 1px solid rgba(91,141,239,0.2); }
+.s-escalated { background: rgba(255,87,87,0.08); color: var(--red); border: 1px solid rgba(255,87,87,0.2); }
+
+.p-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.p-high { background: rgba(255,87,87,0.1); color: var(--red); border: 1px solid rgba(255,87,87,0.2); }
+.p-med  { background: rgba(245,166,35,0.1); color: var(--amber); border: 1px solid rgba(245,166,35,0.2); }
+
+/* ── FOOTER ───────────────────────────────────────────── */
+#footer {
+  background: var(--ink);
+  border-top: 1px solid var(--border);
+  padding: 40px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-left {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.7;
+}
+
+.footer-left span { color: var(--amber); }
+
+.footer-links { display: flex; gap: 20px; }
+
+.footer-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  text-decoration: none;
+  transition: color 0.15s;
+  letter-spacing: 0.04em;
+}
+
+.footer-link:hover { color: var(--amber); }
+
+/* ── SCROLL REVEAL ────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 1000px) {
+  section { padding: 80px 32px; }
+  .hero-grid { grid-template-columns: 1fr; }
+  .terminal { display: none; }
+  .board { grid-template-columns: repeat(2, 1fr); }
+  .m-grid { grid-template-columns: repeat(2, 1fr); }
+  .proof-grid { grid-template-columns: 1fr; }
+  .proof-card.featured { grid-column: span 1; }
+  .integrity-demo { grid-template-columns: 1fr; }
+  .retro-layout { grid-template-columns: 1fr; }
+  .retro-cols { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  #footer { padding: 32px; flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div id="cursor-glow"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-id">
+    <div class="nav-dot"></div>
+    <div>
+      <div class="nav-name">RICHARD J. VALEO, CSM</div>
+      <div class="nav-role">SCRUM MASTER · AI DELIVERY · REGULATED ENVIRONMENTS</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#board">Sprint Board</a></li>
+    <li><a href="#metrics">Metrics</a></li>
+    <li><a href="#ai-proof">AI Proof</a></li>
+    <li><a href="#retro">Retrospective</a></li>
+    <li><a href="#imp">Impediments</a></li>
+  </ul>
+  <a href="mailto:rjvaleo@gmail.com" class="nav-cta">→ LET'S TALK</a>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────────────── -->
+<section id="hero">
+  <div class="inner">
+    <div class="hero-grid">
+      <div class="hero-left reveal">
+        <div class="hero-system-line">
+          <span>sys:</span> ai_delivery_sm_v1 · status: available · location: remote · tz: eastern
+        </div>
+        <h1 class="hero-headline">
+          AI teams need<br>
+          <span class="strike">a manager.</span><br>
+          They need a<br>
+          <span class="hl">delivery system.</span>
+        </h1>
+        <p class="hero-body">
+          12 years facilitating structured, predictable delivery for technical teams — including direct experience supporting AI transformation initiatives in high-demand, regulated enterprise environments. Sprint integrity protected. Velocity sustained. Psychological safety built. This page is the proof.
+        </p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-n" id="stat-yrs">0</div>
+            <div class="hero-stat-l">YRS AS SM</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-n" id="stat-teams">0</div>
+            <div class="hero-stat-l">TEAMS CONCURRENT</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-n" id="stat-pct">0%</div>
+            <div class="hero-stat-l">DELIVERY LIFT</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-n" id="stat-ai">1+</div>
+            <div class="hero-stat-l">YRS AI DELIVERY</div>
+          </div>
+        </div>
+        <div class="cta-group">
+          <a href="mailto:rjvaleo@gmail.com" class="btn btn-primary">→ GET IN TOUCH</a>
+          <a href="https://www.linkedin.com/in/rjvaleo/" target="_blank" class="btn btn-ghost">↗ LINKEDIN</a>
+          <a href="https://rjvaleo.github.io/rj-polymath-site/" target="_blank" class="btn btn-ghost">↗ PORTFOLIO</a>
+        </div>
+      </div>
+
+      <!-- TERMINAL -->
+      <div class="terminal reveal" style="transition-delay:0.2s">
+        <div class="term-bar">
+          <div class="term-dots">
+            <div class="term-dot r"></div>
+            <div class="term-dot y"></div>
+            <div class="term-dot g"></div>
+          </div>
+          <div class="term-title">rjvaleo@ai-delivery ~ sprint-ops</div>
+        </div>
+        <div class="term-body" id="terminal-output"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SPRINT BOARD ────────────────────────────────────── -->
+<section id="board">
+  <div class="inner">
+    <div class="eyebrow reveal">Sprint 1 · AI Delivery Onboarding</div>
+    <div class="board-header reveal">
+      <div>
+        <div class="board-title">Day 1–14: Already running.</div>
+      </div>
+      <div class="sprint-meta">
+        <span class="tag tag-green">● Sprint Active</span>
+        <span class="tag tag-amber">AI Transformation Team</span>
+        <span class="tag tag-dim">42 pts capacity · 40 committed</span>
+      </div>
+    </div>
+    <div class="board reveal">
+      <div>
+        <div class="col-head"><span class="col-label">Backlog</span><span class="col-n">3</span></div>
+        <div class="cards">
+          <div class="c ai">
+            <div class="c-id">ONB-011</div>
+            <div class="c-title">Map model validation process — understand review gates, approval SLAs, compliance checkpoints</div>
+            <div class="c-tags"><span class="c-tag">model validation</span><span class="c-tag">compliance</span></div>
+            <div class="c-pts">3 pts</div>
+          </div>
+          <div class="c risk">
+            <div class="c-id">ONB-012</div>
+            <div class="c-title">Audit data access constraints and security review timelines — incorporate into DoR criteria</div>
+            <div class="c-tags"><span class="c-tag">regulated</span><span class="c-tag">security</span></div>
+            <div class="c-pts">3 pts</div>
+          </div>
+          <div class="c sprint">
+            <div class="c-id">ONB-013</div>
+            <div class="c-title">Baseline unplanned work % from last 3 sprints — identify recurring injection patterns</div>
+            <div class="c-tags"><span class="c-tag">metrics</span><span class="c-tag">disruption</span></div>
+            <div class="c-pts">2 pts</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="col-head active"><span class="col-label">In Progress</span><span class="col-n">5</span></div>
+        <div class="cards">
+          <div class="c ai">
+            <div class="c-id">ONB-003</div>
+            <div class="c-title">Facilitate first sprint planning — confirm AI team capacity, surface model dependency risks pre-sprint</div>
+            <div class="c-tags"><span class="c-tag">ceremony</span><span class="c-tag">AI team</span></div>
+            <div class="c-pts">5 pts</div>
+          </div>
+          <div class="c sprint">
+            <div class="c-id">ONB-004</div>
+            <div class="c-title">Establish sprint change control channel — coach stakeholders on injection impact before first emergency arises</div>
+            <div class="c-tags"><span class="c-tag">integrity</span><span class="c-tag">change ctrl</span></div>
+            <div class="c-pts">3 pts</div>
+          </div>
+          <div class="c people">
+            <div class="c-id">ONB-005</div>
+            <div class="c-title">1:1s with each AI team member — what blocks experimentation? What kills psychological safety?</div>
+            <div class="c-tags"><span class="c-tag">psych safety</span><span class="c-tag">listening</span></div>
+            <div class="c-pts">3 pts</div>
+          </div>
+          <div class="c ai">
+            <div class="c-id">ONB-006</div>
+            <div class="c-title">Set up delivery health dashboard — velocity, throughput, cycle time, unplanned work % tracking from day 1</div>
+            <div class="c-tags"><span class="c-tag">dashboards</span><span class="c-tag">risk exposure</span></div>
+            <div class="c-pts">5 pts</div>
+          </div>
+          <div class="c risk">
+            <div class="c-id">ONB-007</div>
+            <div class="c-title">Identify cross-team integration dependencies — AI pipelines touching claims workflows need early mapping</div>
+            <div class="c-tags"><span class="c-tag">dependencies</span><span class="c-tag">claims ops</span></div>
+            <div class="c-pts">3 pts</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="col-head"><span class="col-label">In Review</span><span class="col-n">2</span></div>
+        <div class="cards">
+          <div class="c people">
+            <div class="c-id">ONB-001</div>
+            <div class="c-title">Co-create working agreements — include psychological safety norms, experiment-friendly failure protocols</div>
+            <div class="c-tags"><span class="c-tag">agreements</span><span class="c-tag">AI culture</span></div>
+            <div class="c-pts">3 pts</div>
+          </div>
+          <div class="c sprint">
+            <div class="c-id">ONB-002</div>
+            <div class="c-title">Publish ceremony schedule — all ceremonies, right people, no extras. Protect team calendar from day 1.</div>
+            <div class="c-tags"><span class="c-tag">ceremonies</span><span class="c-tag">schedule</span></div>
+            <div class="c-pts">2 pts</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="col-head done"><span class="col-label">Done</span><span class="col-n">3</span></div>
+        <div class="cards">
+          <div class="c ai done">
+            <div class="c-id">ONB-008 ✓</div>
+            <div class="c-title">Read AI team documentation, prior sprint retrospectives, model deployment history</div>
+            <div class="c-tags"><span class="c-tag">onboarding</span></div>
+            <div class="c-pts">2 pts</div>
+          </div>
+          <div class="c risk done">
+            <div class="c-id">ONB-009 ✓</div>
+            <div class="c-title">Meet with Product Manager — backlog health, regulatory compliance priorities, escalation preferences</div>
+            <div class="c-tags"><span class="c-tag">PM align</span></div>
+            <div class="c-pts">3 pts</div>
+          </div>
+          <div class="c people done">
+            <div class="c-id">ONB-000 ✓</div>
+            <div class="c-title">Accepted the offer. Cleared the calendar. Showed up ready.</div>
+            <div class="c-tags"><span class="c-tag">day-0</span></div>
+            <div class="c-pts">∞</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── METRICS ─────────────────────────────────────────── -->
+<section id="metrics">
+  <div class="inner">
+    <div class="metrics-hed reveal">
+      <div>
+        <div class="eyebrow" style="margin-bottom:12px;">Delivery Record</div>
+        <div class="metrics-title">Numbers I can walk<br>through in the interview.</div>
+      </div>
+      <div class="metrics-note">Every metric has a story. The ~ means it's honest.</div>
+    </div>
+    <div class="m-grid reveal">
+      <div class="m-card">
+        <div class="m-label">Delivery Predictability</div>
+        <div class="m-val amber">35%+</div>
+        <div class="m-delta">↑ improvement · Eptura SAFe (10+ teams)</div>
+        <div class="m-desc">Dependency mapping surfaced cross-team conflicts 2–3 sprints earlier. Mid-sprint re-plans dropped significantly. SoS rotation established as the detection layer.</div>
+      </div>
+      <div class="m-card">
+        <div class="m-label">Cycle Time Reduction</div>
+        <div class="m-val green">~30%</div>
+        <div class="m-delta">↑ improvement · AI/ML startup IS Ops</div>
+        <div class="m-desc">Re-sequenced AI data pipeline delivery based on throughput data. Fixed the system producing the bottleneck — not just the individual blocker.</div>
+      </div>
+      <div class="m-card">
+        <div class="m-label">Concurrent Teams (Peak)</div>
+        <div class="m-val blue">10+</div>
+        <div class="m-delta">Eptura · SoS rotation facilitation</div>
+        <div class="m-desc">Distributed US and India. Ceremony schedules, dependency boards, and executive reporting maintained simultaneously across all teams.</div>
+      </div>
+      <div class="m-card">
+        <div class="m-label">Jira Rebuilds from Scratch</div>
+        <div class="m-val amber">3×</div>
+        <div class="m-delta">Eptura · A&E Networks · Paperless Post</div>
+        <div class="m-desc">Custom workflows, fields, dashboards, sprint and release reporting. Not just a Jira user. A Jira configurator. Teams still use the boards after I'm gone.</div>
+      </div>
+      <div class="m-card">
+        <div class="m-label">AI Delivery Experience</div>
+        <div class="m-val green">1+</div>
+        <div class="m-delta">YRS · Stealth AI startup + OVRSTCH</div>
+        <div class="m-desc">Direct SM facilitation for AI data pipeline teams. Model validation coordination. Experimentation-safe retrospectives. Unplanned work % tracking from sprint 1.</div>
+      </div>
+      <div class="m-card">
+        <div class="m-label">CSM Active Since</div>
+        <div class="m-val blue">2014</div>
+        <div class="m-delta">Scrum Alliance · Certified through 2028</div>
+        <div class="m-desc">Specifically Scrum Alliance. Plus SAFe SSM (2014). Practiced in live regulated environments — financial services, insurance-adjacent compliance, complex enterprise.</div>
+      </div>
+    </div>
+    <div class="vel-wrap reveal">
+      <div class="vel-head">
+        <span class="vel-label">Sprint Velocity — Team Trend After SM Engagement (First 8 Sprints)</span>
+        <span class="vel-badge">↑ +57% over 8 sprints</span>
+      </div>
+      <div class="vel-bars" id="vel-chart"></div>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;">
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text3);">Sprint 1 — inherited baseline</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--green);font-weight:600;">Sprint 8 — team in rhythm ↑</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AI DELIVERY PROOF ────────────────────────────────── -->
+<section id="ai-proof">
+  <div class="inner">
+    <div class="eyebrow reveal">Show Don't Tell</div>
+    <div style="margin-bottom:48px;" class="reveal">
+      <div style="font-family:var(--serif);font-size:36px;font-weight:700;color:var(--text);margin-bottom:12px;">AI-first delivery thinking.<br>Proven, not claimed.</div>
+      <div style="font-size:15px;color:var(--text2);max-width:560px;line-height:1.75;">Every capability this role demands — sprint integrity, psychological safety, regulated environment discipline, transparent dashboards — demonstrated here from real engagements.</div>
+    </div>
+    <div class="proof-grid">
+
+      <!-- FEATURED: Sprint Integrity Interactive -->
+      <div class="proof-card featured reveal">
+        <div class="proof-head">
+          <div class="proof-icon sprint">🛡</div>
+          <div>
+            <div class="proof-heading">Sprint Integrity & Change Control</div>
+            <div class="proof-sub">JD: "protects sprint commitments · controls mid-sprint injection · operational emergencies"</div>
+          </div>
+        </div>
+        <div class="proof-body">
+          <div class="proof-text">In a regulated AI delivery environment, urgent requests don't stop coming. The SM's job isn't to say no — it's to make the trade-off visible and route it correctly. Try injecting scope below. Watch what happens to sprint capacity.</div>
+          <div class="integrity-demo">
+            <div class="sprint-goal-box">
+              <div class="sgb-label">Sprint 12 · AI Pipeline Team</div>
+              <div class="sgb-goal">Sprint Goal: Deploy claims routing model v2 to staging with compliance sign-off</div>
+              <div style="margin-bottom:8px;">
+                <div class="capacity-bar"><div class="capacity-fill" id="cap-bar" style="width:90%"></div></div>
+                <div class="capacity-text"><span id="cap-text">36/40 pts committed</span><span id="cap-status" style="color:var(--green);">● On track</span></div>
+              </div>
+              <div id="inject-log" style="font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.8;min-height:60px;"></div>
+            </div>
+            <div class="inject-queue">
+              <div class="sgb-label">Incoming Requests — Click to Test Injection</div>
+              <div class="inject-item" data-pts="5" onclick="tryInject(this)">
+                <span class="inject-icon">⚡</span>
+                <span class="inject-label">Urgent: Add fraud detection rule to model (client request)</span>
+                <span class="inject-pts">+5 pts</span>
+              </div>
+              <div class="inject-item" data-pts="3" onclick="tryInject(this)">
+                <span class="inject-icon">🔒</span>
+                <span class="inject-label">Regulatory update: New compliance field required in output</span>
+                <span class="inject-pts">+3 pts</span>
+              </div>
+              <div class="inject-item" data-pts="8" onclick="tryInject(this)">
+                <span class="inject-icon">🚨</span>
+                <span class="inject-label">Operational emergency: Prod model returning null for 2% of claims</span>
+                <span class="inject-pts">+8 pts</span>
+              </div>
+              <div class="inject-item" data-pts="2" onclick="tryInject(this)">
+                <span class="inject-icon">📊</span>
+                <span class="inject-label">VP request: Add new dashboard metric before board review</span>
+                <span class="inject-pts">+2 pts</span>
+              </div>
+              <div id="inject-result" class="inject-result">Select a request to see how it's handled →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI DELIVERY -->
+      <div class="proof-card reveal" style="transition-delay:0.1s">
+        <div class="proof-head">
+          <div class="proof-icon ai">🤖</div>
+          <div>
+            <div class="proof-heading">AI Initiative Delivery</div>
+            <div class="proof-sub">JD: "AI teams · model validation · experimentation · analytics-driven"</div>
+          </div>
+        </div>
+        <div class="proof-body">
+          <div class="proof-text">AI delivery isn't regular software delivery with a different backlog. Models fail in ways stories don't. Validation pipelines have different rhythms than CI/CD. Experimentation requires safety to fail fast. I've facilitated this specific context.</div>
+          <div class="proof-evidence">
+            <span class="label">From: Stealth AI Startup — 2024</span>
+            Led Agile ceremonies for 2 concurrent AI technical teams building data pipelines and automation workflows. Incorporated model validation gates, data access constraints, and security review SLAs directly into Definition of Ready — so nothing entered a sprint that would stall waiting for compliance approval. Fostered psychological safety for teams to surface failed model runs in retrospectives as learning artifacts, not failures to explain.
+          </div>
+        </div>
+      </div>
+
+      <!-- PSYCHOLOGICAL SAFETY -->
+      <div class="proof-card reveal" style="transition-delay:0.15s">
+        <div class="proof-head">
+          <div class="proof-icon psy">🧠</div>
+          <div>
+            <div class="proof-heading">Psychological Safety in AI Teams</div>
+            <div class="proof-sub">JD: "experimentation and iteration · shared accountability · safety to fail"</div>
+          </div>
+        </div>
+        <div class="proof-body">
+          <div class="proof-text">AI teams that can't fail safely can't iterate. Psychological safety isn't a culture poster — it's an SM discipline, built through consistent retrospective practice and by how you respond when a model run fails in sprint.</div>
+          <div class="proof-evidence">
+            <span class="label">How I build it</span>
+            In retros I ask: "What did we learn from the failed experiment?" not "Why did the model miss targets?" The framing shifts accountability from individual to system. I model vulnerability first — sharing what I got wrong as SM before asking the team. By sprint 6, teams I join score higher on psychological safety than sprint 1. Not because of a workshop. Because of 6 sprints of consistent behavior.
+          </div>
+        </div>
+      </div>
+
+      <!-- REGULATED ENVIRONMENTS -->
+      <div class="proof-card reveal" style="transition-delay:0.2s">
+        <div class="proof-head">
+          <div class="proof-icon shield">⚖</div>
+          <div>
+            <div class="proof-heading">Regulated Environment Delivery</div>
+            <div class="proof-sub">JD: "regulatory compliance · security reviews · compliance considerations in DoR"</div>
+          </div>
+        </div>
+        <div class="proof-body">
+          <div class="proof-text">Regulated delivery means compliance isn't a step after development — it's a gate before a story enters sprint. I've built DoR criteria in environments where stories that skipped compliance review created audit findings, not just bugs.</div>
+          <div class="proof-evidence">
+            <span class="label">From: DigitasLBI / SunTrust Banks — 2014</span>
+            Embedded SM in a heavily regulated financial services transformation. Incorporated security review checkpoints, compliance sign-off requirements, and data handling documentation directly into Definition of Ready. Stories that couldn't meet regulatory acceptance criteria didn't enter planning — full stop. Maintained audit-ready Jira documentation and Confluence records that survived external review. Direct analog to insurance/claims compliance requirements.
+          </div>
+        </div>
+      </div>
+
+      <!-- DASHBOARDS -->
+      <div class="proof-card reveal" style="transition-delay:0.25s">
+        <div class="proof-head">
+          <div class="proof-icon dash">📈</div>
+          <div>
+            <div class="proof-heading">Transparent Risk Dashboards</div>
+            <div class="proof-sub">JD: "velocity · throughput · cycle time · unplanned work % · risk exposure"</div>
+          </div>
+        </div>
+        <div class="proof-body">
+          <div class="proof-text">The JD names a specific metrics set. Here's the exact framework I use — not just the metrics, but what each one signals and when it triggers action.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+            <div style="background:var(--ink);border:1px solid var(--border);border-radius:6px;padding:10px 12px;">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--amber);letter-spacing:0.1em;margin-bottom:4px;">VELOCITY</div>
+              <div style="font-size:11px;color:var(--text3);">Trend over 5+ sprints. Point-in-time is noise. Declining trend = system problem, not capacity problem.</div>
+            </div>
+            <div style="background:var(--ink);border:1px solid var(--border);border-radius:6px;padding:10px 12px;">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--blue);letter-spacing:0.1em;margin-bottom:4px;">THROUGHPUT</div>
+              <div style="font-size:11px;color:var(--text3);">Stories completed per sprint regardless of size. Low throughput + high velocity = oversized stories. Fix the backlog.</div>
+            </div>
+            <div style="background:var(--ink);border:1px solid var(--border);border-radius:6px;padding:10px 12px;">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:0.1em;margin-bottom:4px;">CYCLE TIME</div>
+              <div style="font-size:11px;color:var(--text3);">Days from in-progress to done. Spikes usually reveal hidden dependencies or review bottlenecks — not slow engineers.</div>
+            </div>
+            <div style="background:var(--ink);border:1px solid var(--border);border-radius:6px;padding:10px 12px;">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--red);letter-spacing:0.1em;margin-bottom:4px;">UNPLANNED WORK %</div>
+              <div style="font-size:11px;color:var(--text3);">In regulated environments this is the key signal. &gt;20% consistently = broken intake process or stakeholder boundary issue.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── RETRO ───────────────────────────────────────────── -->
+<section id="retro">
+  <div class="inner">
+    <div class="retro-layout">
+      <div class="reveal">
+        <div class="eyebrow" style="margin-bottom:24px;">Retrospective</div>
+        <div class="retro-quote">
+          "Any SM who can't run a retro on <span class="hl">themselves</span> isn't really running retros."
+        </div>
+        <div class="retro-sig">
+          <div class="retro-avatar">RV</div>
+          <div>
+            <div class="retro-sig-name">Richard J. Valeo, CSM</div>
+            <div class="retro-sig-title">SCRUM MASTER · AI DELIVERY · REMOTE SINCE 2017</div>
+          </div>
+        </div>
+        <div class="cta-group">
+          <a href="mailto:rjvaleo@gmail.com" class="btn btn-primary">→ LET'S TALK</a>
+          <a href="https://rjvaleo.github.io/rj-polymath-site/" target="_blank" class="btn btn-ghost">↗ PORTFOLIO</a>
+        </div>
+      </div>
+
+      <div class="retro-cols reveal" style="transition-delay:0.15s">
+        <div class="retro-col well">
+          <div class="retro-col-head">
+            <div class="retro-col-icon">✓</div>
+            <div class="retro-col-title">What went well</div>
+          </div>
+          <div class="retro-items">
+            <div class="retro-item">
+              <span class="ri-tag">AI team facilitation</span>
+              Created environments where model failures get reported in standup, not discovered in production. Failed experiments became retro artifacts, not postmortems.
+            </div>
+            <div class="retro-item">
+              <span class="ri-tag">Sprint integrity</span>
+              When the 3am prod alert comes, I have a routing process ready. Stakeholders know the channel. The sprint goal survives.
+            </div>
+            <div class="retro-item">
+              <span class="ri-tag">Regulated delivery</span>
+              DoR criteria that include compliance checkpoints. Stories that skip security review don't enter planning. Audit documentation that survives external review.
+            </div>
+            <div class="retro-item">
+              <span class="ri-tag">Decisive escalation</span>
+              I bring data, a proposed resolution, and a recommended timeline when something needs VP attention. Not just the problem.
+            </div>
+          </div>
+        </div>
+        <div class="retro-col improve">
+          <div class="retro-col-head">
+            <div class="retro-col-icon">△</div>
+            <div class="retro-col-title">What I'd improve</div>
+          </div>
+          <div class="retro-items">
+            <div class="retro-item">
+              <span class="ri-tag">Domain ramp-up</span>
+              Insurance and claims workflows are new territory. I'll read fast, ask better questions, and be explicit about what I'm learning vs. what I know.
+            </div>
+            <div class="retro-item">
+              <span class="ri-tag">Patience with slow adopters</span>
+              I move fast toward good process. Teams with years of undisciplined delivery need more runway than I sometimes give them.
+            </div>
+            <div class="retro-item">
+              <span class="ri-tag">Delegation reflex</span>
+              When something's broken I fix it. Coaching teams to fix it themselves requires deliberate restraint. Still practicing.
+            </div>
+          </div>
+        </div>
+        <div class="retro-col actions">
+          <div class="retro-col-head">
+            <div class="retro-col-icon">→</div>
+            <div class="retro-col-title">Action items</div>
+          </div>
+          <div class="retro-items">
+            <div class="retro-item">
+              <span class="ri-tag">Owner: RJ · Sprint 1</span>
+              Read claims workflow documentation before touching any ceremony. Understand the regulated operational context the AI is solving for.
+            </div>
+            <div class="retro-item">
+              <span class="ri-tag">Owner: RJ · Sprint 1</span>
+              Map model validation pipeline and security review SLAs. Build them into DoR before first sprint planning.
+            </div>
+            <div class="retro-item">
+              <span class="ri-tag">Owner: RJ · Sprint 2</span>
+              Baseline unplanned work % from historical sprints. Identify injection patterns before introducing any process change.
+            </div>
+            <div class="retro-item">
+              <span class="ri-tag">Owner: RJ · Ongoing</span>
+              Send weekly delivery health report to leadership. Velocity, throughput, cycle time, unplanned work %. Data first. One page.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── IMPEDIMENT LOG ──────────────────────────────────── -->
+<section id="imp">
+  <div class="inner">
+    <div class="eyebrow reveal">Impediment Register</div>
+    <div class="imp-title reveal">How I remove blockers.</div>
+    <div class="imp-desc reveal">From real engagements — patterns intact, companies anonymized. The SM brain in action: fix the system, not the symptom.</div>
+    <table class="imp-table reveal">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Impediment</th>
+          <th>Priority</th>
+          <th>Resolution Approach</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="imp-id">IMP-001</td>
+          <td>Model validation review taking 7+ days — longer than sprint cadence, blocking AI team from meeting sprint goals</td>
+          <td><span class="p-badge p-high">High</span></td>
+          <td>Mapped validation SLA to sprint timeline. Proposed parallel review track for low-risk model changes. Escalated timeline conflict to Technology leadership with data showing sprint impact. Validation team agreed to 3-day SLA for pre-scoped changes.</td>
+          <td><span class="s-badge s-resolved">Resolved</span></td>
+        </tr>
+        <tr>
+          <td class="imp-id">IMP-002</td>
+          <td>Regulatory compliance field requirement surfaced mid-sprint — required immediate model output change affecting 3 in-flight stories</td>
+          <td><span class="p-badge p-high">High</span></td>
+          <td>Invoked sprint change control protocol. Assessed impact with PM and tech lead in 30 mins. Made decisive call: split the compliance change into a dedicated story, adjust sprint goal scope, communicate trade-off to stakeholders with timeline. Sprint goal modified — not abandoned.</td>
+          <td><span class="s-badge s-resolved">Resolved</span></td>
+        </tr>
+        <tr>
+          <td class="imp-id">IMP-003</td>
+          <td>Data access permissions blocking AI team from training environment — 5-day IT approval queue incompatible with sprint velocity</td>
+          <td><span class="p-badge p-high">High</span></td>
+          <td>Built data access request directly into Definition of Ready — no story enters sprint without confirmed access. Created pre-approved access template for recurring AI training environments. Eliminated recurrence class entirely.</td>
+          <td><span class="s-badge s-resolved">Resolved</span></td>
+        </tr>
+        <tr>
+          <td class="imp-id">IMP-004</td>
+          <td>AI team reluctant to surface failed experiments in standup — creating invisible risk accumulation and late-sprint surprises</td>
+          <td><span class="p-badge p-high">High</span></td>
+          <td>Recognized psychological safety deficit, not information deficit. Restructured retrospectives to celebrate learning from failures explicitly. Added "what did we learn?" as a standing standup question alongside "what's blocking?" Changed the culture by changing the question.</td>
+          <td><span class="s-badge s-resolved">Resolved</span></td>
+        </tr>
+        <tr>
+          <td class="imp-id">IMP-005</td>
+          <td>Stakeholder injecting urgent requests directly to AI engineers — bypassing PM and eroding sprint commitment predictability</td>
+          <td><span class="p-badge p-high">High</span></td>
+          <td>Three-party conversation with stakeholder, PM, and tech lead. Named the pattern without blame. Demonstrated cumulative impact on unplanned work % over 4 sprints using dashboard data. Intake process established. Engineers given language to redirect without friction.</td>
+          <td><span class="s-badge s-resolved">Resolved</span></td>
+        </tr>
+        <tr>
+          <td class="imp-id">IMP-006</td>
+          <td>Cross-team dependency on claims data pipeline undiscovered until sprint day 7 — blocked two AI model integration stories</td>
+          <td><span class="p-badge p-med">Med</span></td>
+          <td>Added claims workflow dependency mapping to sprint planning template. Introduced Scrum-of-Scrums specifically to surface this class of integration dependency pre-sprint. Interface contracts reviewed during backlog refinement with claims team tech lead present.</td>
+          <td><span class="s-badge s-progress">In Progress</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────────────── -->
+<footer id="footer">
+  <div class="footer-left">
+    <span>RICHARD J. VALEO, CSM</span> · Scrum Master · AI Delivery · Regulated Environments<br>
+    Georgetown, CO (Remote) · 917-664-1750 · rjvaleo@gmail.com · CSM Scrum Alliance 2014–2028
+  </div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/rjvaleo/" target="_blank" class="footer-link">↗ LinkedIn</a>
+    <a href="https://rjvaleo.github.io/rj-polymath-site/" target="_blank" class="footer-link">↗ Portfolio</a>
+    <a href="https://rjvaleo.github.io/enterprise-viewscreen/" target="_blank" class="footer-link">↗ Warp Screen Sim</a>
+    <a href="mailto:rjvaleo@gmail.com" class="footer-link">→ Email</a>
+  </div>
+</footer>
+
+<script>
+// Cursor glow
+const glow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
+});
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+// Counter animation
+function animateCount(el, target, suffix, duration) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if(start >= target) { el.textContent = target + suffix; clearInterval(timer); }
+    else { el.textContent = Math.floor(start) + suffix; }
+  }, 16);
+}
+
+let counted = false;
+const heroObserver = new IntersectionObserver(entries => {
+  if(entries[0].isIntersecting && !counted) {
+    counted = true;
+    setTimeout(() => animateCount(document.getElementById('stat-yrs'), 12, '+', 1200), 400);
+    setTimeout(() => animateCount(document.getElementById('stat-teams'), 10, '+', 1000), 600);
+    setTimeout(() => animateCount(document.getElementById('stat-pct'), 35, '%', 1400), 800);
+  }
+}, { threshold: 0.3 });
+heroObserver.observe(document.getElementById('hero'));
+
+// Terminal typewriter
+const termLines = [
+  { type: 'prompt', text: '$ sprint_health --team=ai-delivery --sprint=12' },
+  { type: 'out', text: '' },
+  { type: 'out green', text: '✓ Sprint goal: claims routing model v2 → staging' },
+  { type: 'out', text: '  velocity:        41 pts  (+8% vs sprint avg)' },
+  { type: 'out', text: '  throughput:       9 stories completed' },
+  { type: 'out amber', text: '  cycle_time:       4.2 days  (↑ from 3.8 — watching)' },
+  { type: 'out green', text: '  unplanned_work:   12%  (↓ from 31% @ sprint 1)' },
+  { type: 'out', text: '  sprint_goal_risk: LOW' },
+  { type: 'out', text: '' },
+  { type: 'prompt', text: '$ impediments --active' },
+  { type: 'out', text: '' },
+  { type: 'out red', text: '  [OPEN]  IMP-006: Claims data pipeline dependency' },
+  { type: 'out', text: '  owner:   R.Valeo  |  escalation: Tue 2pm' },
+  { type: 'out', text: '' },
+  { type: 'prompt', text: '$ model_validation --status' },
+  { type: 'out', text: '' },
+  { type: 'out green', text: '  v2.1.4 → compliance review: APPROVED' },
+  { type: 'out amber', text: '  v2.1.5 → security review:   PENDING (est. 2d)' },
+  { type: 'out dim', text: '  DoR gate: security review must complete before sprint entry' },
+  { type: 'out', text: '' },
+  { type: 'prompt', text: '$ _' },
+];
+
+const termOut = document.getElementById('terminal-output');
+let lineIndex = 0;
+let charIndex = 0;
+let currentSpan = null;
+
+function typeTerm() {
+  if(lineIndex >= termLines.length) return;
+  const line = termLines[lineIndex];
+  if(charIndex === 0) {
+    currentSpan = document.createElement('span');
+    currentSpan.className = 'term-line';
+    if(line.type === 'prompt') {
+      const p = document.createElement('span');
+      p.className = 'term-prompt';
+      p.textContent = '❯ ';
+      currentSpan.appendChild(p);
+      const c = document.createElement('span');
+      c.className = 'term-cmd';
+      currentSpan.appendChild(c);
+    } else {
+      currentSpan.className = 'term-line term-out ' + (line.type !== 'out' ? line.type.replace('out ','') : '');
+    }
+    termOut.appendChild(currentSpan);
+    // remove previous cursor
+    const prev = termOut.querySelector('.term-cursor');
+    if(prev) prev.remove();
+  }
+  const target = line.type === 'prompt' ? currentSpan.querySelector('.term-cmd') : currentSpan;
+  if(charIndex < line.text.length) {
+    target.textContent += line.text[charIndex];
+    charIndex++;
+    setTimeout(typeTerm, line.type === 'prompt' ? 28 : 12);
+  } else {
+    // add newline
+    termOut.appendChild(document.createElement('br'));
+    lineIndex++;
+    charIndex = 0;
+    // add cursor to last line
+    if(lineIndex >= termLines.length) {
+      const cur = document.createElement('span');
+      cur.className = 'term-cursor';
+      termOut.appendChild(cur);
+      return;
+    }
+    setTimeout(typeTerm, line.text === '' ? 100 : 180);
+  }
+}
+setTimeout(typeTerm, 1200);
+
+// Velocity chart
+const velData = [28,31,29,34,38,40,41,44];
+const velChart = document.getElementById('vel-chart');
+const maxV = Math.max(...velData);
+velData.forEach((v,i) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'vel-b-wrap';
+  const bar = document.createElement('div');
+  bar.className = 'vel-b' + (i===velData.length-1?' now':'');
+  bar.style.height = Math.round((v/maxV)*100)+'%';
+  bar.title = 'Sprint '+(i+1)+': '+v+' pts';
+  const lbl = document.createElement('div');
+  lbl.className = 'vel-b-label';
+  lbl.textContent = 'S'+(i+1);
+  wrap.appendChild(bar); wrap.appendChild(lbl); velChart.appendChild(wrap);
+});
+
+// Sprint injection demo
+let committed = 36;
+const total = 40;
+let injectionLog = [];
+
+const responses = {
+  5: {
+    label: 'fraud detection (client)',
+    action: 'route',
+    msg: '→ Routed to intake. PM notified. Impact assessed: +5 pts would exceed capacity by 1 pt and risk sprint goal. Scheduled for Sprint 13 backlog with PO priority flag. Stakeholder informed of trade-off and timeline.'
+  },
+  3: {
+    label: 'regulatory compliance field',
+    action: 'accept',
+    msg: '→ Regulatory compliance accepted as sprint change. SM invoked change control: goal adjusted to include compliance field. Removed 3 pts of lowest-priority story to protect capacity. Operations Management notified. Sprint goal updated.'
+  },
+  8: {
+    label: 'prod model null returns',
+    action: 'war-room',
+    msg: '→ Operational emergency escalated immediately. War room opened with tech lead, PM, and DevOps. Hotfix scoped as out-of-sprint deployment (does not consume sprint capacity). Sprint goal remains intact. RCA story added to Sprint 13.'
+  },
+  2: {
+    label: 'VP dashboard metric',
+    action: 'route',
+    msg: '→ Non-urgent. Routed to PM intake with context: adding during sprint would consume 2 pts of final-sprint capacity and risk goal completion. Offered two options: (1) add to Sprint 13 backlog, or (2) SM will create read-only view from existing data within 1 hour — no sprint impact. VP chose option 2.'
+  }
+};
+
+function tryInject(el) {
+  if(el.classList.contains('injected')) return;
+  const pts = parseInt(el.dataset.pts);
+  const r = responses[pts];
+  el.classList.add('injected');
+  const newCommitted = committed + (r.action === 'accept' ? 0 : 0);
+  const pct = Math.min(100, Math.round((committed/total)*100));
+  let overCapacity = committed + pts > total;
+
+  const logEl = document.getElementById('inject-log');
+  const entry = document.createElement('div');
+  entry.textContent = '+ ' + r.label + ' [' + r.action.toUpperCase() + ']';
+  entry.style.color = r.action === 'war-room' ? 'var(--red)' : r.action === 'accept' ? 'var(--amber)' : 'var(--green)';
+  logEl.appendChild(entry);
+
+  const resultEl = document.getElementById('inject-result');
+  resultEl.textContent = r.msg;
+  resultEl.className = 'inject-result ' + (r.action === 'war-room' ? 'warning' : 'ok');
+
+  const capBar = document.getElementById('cap-bar');
+  const capText = document.getElementById('cap-text');
+  const capStatus = document.getElementById('cap-status');
+
+  if(r.action === 'accept') {
+    capBar.style.background = 'var(--amber)';
+    capText.textContent = committed + ' pts + compliance change';
+    capStatus.textContent = '● Goal updated';
+    capStatus.style.color = 'var(--amber)';
+  } else if(r.action === 'war-room') {
+    capBar.style.background = 'var(--red)';
+    capText.textContent = 'EMERGENCY — out-of-sprint track';
+    capStatus.textContent = '● War room active';
+    capStatus.style.color = 'var(--red)';
+    setTimeout(() => {
+      capBar.style.background = 'var(--green)';
+      capText.textContent = committed + '/'+total+' pts (sprint goal intact)';
+      capStatus.textContent = '● Stabilized';
+      capStatus.style.color = 'var(--green)';
+    }, 2500);
+  } else {
+    capText.textContent = committed+'/'+total+' pts (goal protected)';
+    capStatus.textContent = '● On track';
+    capStatus.style.color = 'var(--green)';
+  }
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t) { e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+
+// Nav active
+const sections = document.querySelectorAll('section[id]');
+const navAs = document.querySelectorAll('.nav-links a[href^="#"]');
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      navAs.forEach(a => a.style.color = '');
+      const a = document.querySelector('.nav-links a[href="#'+e.target.id+'"]');
+      if(a) a.style.color = 'var(--amber)';
+    }
+  });
+}, {threshold:0.4}).observe.bind(new IntersectionObserver(() => {}))(document.body);
+
+sections.forEach(s => {
+  new IntersectionObserver(entries => {
+    if(entries[0].isIntersecting) {
+      navAs.forEach(a => a.style.color = '');
+      const a = document.querySelector('.nav-links a[href="#'+s.id+'"]');
+      if(a) a.style.color = 'var(--amber)';
+    }
+  }, {threshold:0.4}).observe(s);
+});
+</script>
+</body>
+</html>
